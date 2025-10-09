@@ -7,8 +7,8 @@
  * 明確な単語を使う(汎用的な名前を使わない)
  * 具体的な名前を使う(抽象的な名前を使わない)
  * 接尾辞(単語の先頭に付く要素：dis,re)や接頭辞(単語の末尾に付く要素：-able,less)を適切に使用する
- * 名前の長さを決める
- * 名前のフォーマットで情報を伝える
+ * 値の単位を盛り込む
+ * 命名規則を定める
 */
 
 //-----------------------------------------------------
@@ -22,7 +22,7 @@ for ($i = 0; $i < count($users); $i++) {
 
 # 良い例:ループイテレータに明確な単語を命名することで、ループ内で何が変化するのかが理解しやすい
 for($age = 0; $age < 10; $age++){
-  // ...
+    // ...
 }
 
 //-----------------------------------------------------
@@ -30,12 +30,12 @@ for($age = 0; $age < 10; $age++){
 //-----------------------------------------------------
 
 # 悪い例：どこからどのようにデータを取得したいのか不明　※「get」：「手に入れる」という広い意味を持つ
-function get_data() {
+function getData() {
     return $data; 
 }
 
 # 良い例：データベースからユーザーの情報を取得するという意図が明確になっている　※fetch：外部(サーバーやDB)からデータを取得する
-function fetch_users_from_db() {
+function fetchUsersFromDb() {
     return $users; 
 }
 
@@ -44,26 +44,51 @@ function fetch_users_from_db() {
 //-----------------------------------------------------
 
 # 悪い例：計算式や出力がどのような単位で行われるのか見てわからない
-function calculate_throughput($data_size, $elapsed_time)
+function calculateThroughput($dataSize, $time)
 {
     // 通信速度の計算
-    $throughput = ($data_size * 8) / $elapsed_time;
+    $throughput = ($dataSize * 8) / $time;
 
     // 小数点第2位まで表示
     return number_format($throughput, 2);
 }
 
 # 良い例：関数や変数の名前に単位が含まれているので、どのような計算がされるのか理解しやすい
-function calculate_throughput_mbps($data_size_megabytes, $elapsed_time_seconds) // throughput: 通信速度、elapsed time: 経過時間　
+function calculateThroughputMbps($dataSizeMegabytes, $timeSeconds) // throughput: 通信速度
 {
     // データ量をバイトからビットに変換する(1Byte = 8bit)
-    $data_size_megabits = $data_size_megabytes * 8;
+    $dataSizeMegabits = $dataSizeMegabytes * 8;
 
     // 通信速度（Mbps）を計算  ※Mbps : Megabit per seconds (Megaは100万)
-    $throughput_mbps = $data_size_megabits / $elapsed_time_seconds;
+    $throughputMbps = $dataSizeMegabits / $timeSeconds;
 
     // 少数第2位まで表示
-    return number_format($throughput_mbps, 2);
+    return number_format($throughputMbps, 2);
 }
 
+//-----------------------------------------------------
+// 重要な属性を追加する
+//-----------------------------------------------------
+
+# 現在は理解できないため保留
+
+//-----------------------------------------------------
+// 命名規則を定める
+//-----------------------------------------------------
+
+/* 固有の省略文字は使用しない
+  > そのプロジェクトに詳しくない人が見たときに、理解しづらくなる 
+*/
+
+/* 不要な単語を減らす
+  > 伝えたい情報が損なわれない単語は削除する　×　DoCaluculate 〇 Caluculate
+*/
+
+/* 名前のフォーマットで情報を伝える
+  > そのコードの役割や機能が一目瞭然になる　※言語やプロジェクトごとにフォーマットが違うので注意
+  # 関数名(メソッド名)、変数名(プロパティ名)：キャメルケース(ローワーキャメルケース)　例　fetchUser(), $userName
+  # クラス名：パスカルケース(アッパーキャメルケース) 例 User,Post
+  # テーブル名：パスカルケース(アッパーキャメルケース) 例　TransactionResult
+  #カラム名：スネークケース　例　user_name
+ */
 ?>
